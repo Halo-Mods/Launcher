@@ -78,7 +78,7 @@ DWORD WINAPI steam_thread_proc(LPVOID lpParam)
 
 void steam_connect_to_lobby(uint64_t user_id, uint64_t lobby_id)
 {
-	if (steam_lobbyid != lobby_id && steam_userid != user_id)
+	if (steam_lobbyid != lobby_id)
 	{
 		char fmt[256];
 		snprintf(fmt, sizeof(fmt), "steam://joinlobby/976730/%llu/%llu", lobby_id, user_id);
