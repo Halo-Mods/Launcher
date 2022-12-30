@@ -3,7 +3,7 @@
 The Halomods Launcher for Halo MCC allows you to join your friends through Discord, and select whether to launch the game with or without the Halomods extensions, so you can still play with EAC enabled for matchmaking.
 
 ## Installation instructions
-[Download the launcher](https://github.com/Halo-Mods/Launcher/releases/download/v010/Release.7z)
+[Download the launcher](https://github.com/Halo-Mods/Launcher/releases/latest/download/Release.7z)
 
 1. In your Halo MCC install directory, rename `mcclauncher.exe` to `_mcclauncher.exe`.
 2. Extract the contents from the latest Github release's zip archive into your Halo MCC install folder.
