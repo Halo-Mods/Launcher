@@ -78,11 +78,18 @@ DWORD WINAPI steam_thread_proc(LPVOID lpParam)
 
 void steam_connect_to_lobby(uint64_t user_id, uint64_t lobby_id)
 {
-	char fmt[256];
-	snprintf(fmt, sizeof(fmt), "steam://joinlobby/976730/%llu/%llu", lobby_id, user_id);
-	fmt[sizeof(fmt)-1] = '\0';
-	DEV("Steam: executing %s\n", fmt);
-	ShellExecuteA(nullptr, nullptr, fmt, nullptr, nullptr, SW_SHOW);
+	if (steam_lobbyid != lobby_id && steam_userid != user_id)
+	{
+		char fmt[256];
+		snprintf(fmt, sizeof(fmt), "steam://joinlobby/976730/%llu/%llu", lobby_id, user_id);
+		fmt[sizeof(fmt) - 1] = '\0';
+		DEV("Steam: executing %s\n", fmt);
+		ShellExecuteA(nullptr, nullptr, fmt, nullptr, nullptr, SW_SHOW);
+	}
+	else
+	{
+		DEV("Steam: blocking repeat lobby join, we're already in the lobby\n");
+	}
 }
 
 void steam_game_status_create()
