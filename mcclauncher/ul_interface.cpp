@@ -74,7 +74,7 @@ c_halomods_ul_interface::c_halomods_ul_interface()
 {
 	m_app = ul::App::Create();
 	m_window = ul::Window::Create(m_app->main_monitor(), 572, 300, false, ul::kWindowFlags_Titled | ul::kWindowFlags_Hidden);
-	m_window->SetTitle("Halomods");
+	m_window->SetTitle("Halo Mods");
 	m_window->MoveToCenter();
 	m_overlay = ul::Overlay::Create(m_window, m_window->width(), m_window->height(), 0, 0);
 	m_overlay->view()->LoadURL("file:///launcher/index.html");
