@@ -1,5 +1,9 @@
 add_executable(mcclauncher WIN32
-	mcclauncher.cpp
+	ul_interface.cpp
+	ul_interface.h
+	game_launcher.cpp
+	game_launcher.h
+	main.cpp
 	mcclauncher_private_pch.h)
 
 set_common_props(mcclauncher)
