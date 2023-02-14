@@ -1,7 +1,4 @@
-#include "mcclib-private-pch.h"
-
-#define WIN32_LEAN_AND_MEAN
-#include <Windows.h>
+#include "mcclib_private_pch.h"
 
 static HANDLE steam_thread = INVALID_HANDLE_VALUE;
 static LONG should_stop = FALSE;

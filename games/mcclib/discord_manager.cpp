@@ -1,7 +1,7 @@
-#include "mcclib-private-pch.h"
+#include "mcclib_private_pch.h"
 
-#define WIN32_LEAN_AND_MEAN
-#include <Windows.h>
+#define DISCORD_APP_ID 1054143837859233854
+#define DISCORD_CLIENT_ID DISCORD_APP_ID
 
 static HANDLE discord_thread = INVALID_HANDLE_VALUE;
 static LONG should_stop = FALSE;
@@ -24,7 +24,7 @@ const char* discord_get_game_state_string()
 {
 	const char* status = "Starting";
 
-	if (xlive_is_ufg_active())
+	if (is_ufg_active())
 	{
 		switch (ufg_life_cycle_state)
 		{
@@ -56,8 +56,8 @@ void discord_rich_presence_update(s_discord_data* discord, const char* state)
 	// TODO: we could use xuids and xbox lobby ids instead?
 	if (steam_userid != 0 && steam_lobbyid != 0)
 	{
-		uint64_t party_hash = XXH64(&steam_lobbyid, sizeof(steam_lobbyid), 0);
-		snprintf(discord_activity.party.id, sizeof(discord_activity.party.id), "%016llx", party_hash);
+		//uint64_t party_hash = XXH64(&steam_lobbyid, sizeof(steam_lobbyid), 0);
+		snprintf(discord_activity.party.id, sizeof(discord_activity.party.id), "%016llx", steam_lobbyid);
 		discord_activity.party.privacy = DiscordActivityPartyPrivacy_Public;
 		discord_activity.party.size.current_size = 1;
 		discord_activity.party.size.max_size = 16;

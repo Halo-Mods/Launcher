@@ -1,14 +1,10 @@
-#include "mcclib-private-pch.h"
+#include "mcclib_private_pch.h"
 
-#define WIN32_LEAN_AND_MEAN
-#include <Windows.h>
-#include <detours.h>
-
-bool enable_rich_presence;
+bool enable_rich_presence = true;
 
 BOOL __declspec(dllexport) WINAPI DllMain(HINSTANCE hinst, DWORD dwReason, LPVOID reserved)
 {
-	static constexpr char k_settings_path[MAX_PATH] = ".\\HMSettings.ini";
+	//static constexpr char k_settings_path[MAX_PATH] = ".\\HMSettings.ini";
 
 	if (!DetourIsHelperProcess())
 	{
@@ -16,10 +12,10 @@ BOOL __declspec(dllexport) WINAPI DllMain(HINSTANCE hinst, DWORD dwReason, LPVOI
 		{
 			DetourRestoreAfterWith();
 
-			enable_rich_presence = !!GetPrivateProfileIntA("Discord", "EnableRichPresence", 1, k_settings_path);
-			apply_all_hooks(false);
+			apply_hooks_for_module("MCC-Win64-Shipping.exe", false);
+			apply_game_references_for_module("MCC-Win64-Shipping.exe");
+
 			steam_game_status_create();
-			xlive_game_status_create();
 			if (enable_rich_presence)
 			{
 				discord_game_status_create();
@@ -31,11 +27,9 @@ BOOL __declspec(dllexport) WINAPI DllMain(HINSTANCE hinst, DWORD dwReason, LPVOI
 			{
 				discord_game_status_dispose();
 			}
-			xlive_game_status_dispose();
 			steam_game_status_dispose();
-			apply_all_hooks(true);
 
-			WritePrivateProfileStringA("Discord", "EnableRichPresence", enable_rich_presence ? "1" : "0", k_settings_path);
+			apply_hooks_for_module("MCC-Win64-Shipping.exe", true);
 		}
 	}
 

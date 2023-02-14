@@ -2,7 +2,7 @@
 
 namespace UFG
 {
-	enum class eLifeCycleState : dword
+	enum class eLifeCycleState : uint32_t
 	{
 		eLifeCycleState_None,
 		eLifeCycleState_Resume,
@@ -36,7 +36,4 @@ namespace UFG
 
 extern UFG::eLifeCycleState& ufg_life_cycle_state;
 
-bool xlive_is_ufg_active();
-
-void xlive_game_status_create();
-void xlive_game_status_dispose();
+bool is_ufg_active();
