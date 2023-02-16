@@ -84,35 +84,38 @@ set(webcore_LIBRARIES
 	"${SOURCE_DIR}/bin/gio-2.0-0.dll"
 	"${SOURCE_DIR}/bin/glib-2.0-0.dll"
 	"${SOURCE_DIR}/bin/gobject-2.0-0.dll"
-	"${SOURCE_DIR}/bin/gstreamer-full-1.0.dll"
-	PARENT_SCOPE)
+	"${SOURCE_DIR}/bin/gstreamer-full-1.0.dll")
 
 add_library(webcorelib SHARED IMPORTED GLOBAL)
 add_dependencies(webcorelib PRIVATE ${EP_ULTRALIGHT})
+set(webcore_DLL "${SOURCE_DIR}/bin/WebCore.dll")
 set_target_properties(webcorelib PROPERTIES
 	IMPORTED_IMPLIB					"${SOURCE_DIR}/lib/WebCore.lib"
-	IMPORTED_LOCATION				"${SOURCE_DIR}/bin/WebCore.dll")
+	IMPORTED_LOCATION				"${webcore_DLL}")
 
 add_library(ultralightcorelib SHARED IMPORTED GLOBAL)
 add_dependencies(ultralightcorelib PRIVATE ${EP_ULTRALIGHT})
+set(ultralightcore_DLL "${SOURCE_DIR}/bin/UltralightCore.dll")
 set_target_properties(ultralightcorelib PROPERTIES
 	IMPORTED_IMPLIB					"${SOURCE_DIR}/lib/UltralightCore.lib"
-	IMPORTED_LOCATION				"${SOURCE_DIR}/bin/UltralightCore.dll")
+	IMPORTED_LOCATION				"${ultralightcore_DLL}")
 
 add_library(ultralightlib SHARED IMPORTED GLOBAL)
 add_dependencies(ultralightlib PRIVATE ${EP_ULTRALIGHT})
+set(ultralight_DLL "${SOURCE_DIR}/bin/Ultralight.dll")
 set_target_properties(ultralightlib PROPERTIES
 	IMPORTED_IMPLIB					"${SOURCE_DIR}/lib/Ultralight.lib"
-	IMPORTED_LOCATION				"${SOURCE_DIR}/bin/Ultralight.dll")
+	IMPORTED_LOCATION				"${ultralight_DLL}")
 target_link_libraries(ultralightlib INTERFACE
 	webcorelib
 	ultralightcorelib)
 
 add_library(appcore SHARED IMPORTED GLOBAL)
 add_dependencies(appcore PRIVATE ${EP_ULTRALIGHT})
+set(appcore_DLL "${SOURCE_DIR}/bin/AppCore.dll")
 set_target_properties(appcore PROPERTIES
 	IMPORTED_IMPLIB					"${SOURCE_DIR}/lib/AppCore.lib"
-	IMPORTED_LOCATION				"${SOURCE_DIR}/bin/AppCore.dll")
+	IMPORTED_LOCATION				"${appcore_DLL}")
 target_link_libraries(appcore INTERFACE
 	ultralightlib)
 
@@ -121,3 +124,17 @@ target_include_directories(ultralightlibs INTERFACE
 	"${SOURCE_DIR}/include")
 target_link_libraries(ultralightlibs INTERFACE
 	ultralightlib)
+
+add_custom_target(copy_ultralight_dlls
+	${CMAKE_COMMAND} -E copy ${webcore_LIBRARIES} ${webcore_DLL} ${ultralightcore_DLL} ${ultralight_DLL} ${appcore_DLL} "${MCC_RUNTIME_OUTPUT_DIRECTORY}/halomods"
+	COMMENT "Copying Ultralight DLLs"
+	COMMAND_EXPAND_LISTS)
+
+set_target_properties(copy_ultralight_dlls PROPERTIES
+	FOLDER "Build Steps")
+
+set(webcore_LIBRARIES ${webcore_LIBRARIES} PARENT_SCOPE)
+set(webcore_DLL ${webcore_DLL} PARENT_SCOPE)
+set(ultralightcore_DLL ${ultralightcore_DLL} PARENT_SCOPE)
+set(ultralight_DLL ${ultralight_DLL} PARENT_SCOPE)
+set(appcore_DLL ${appcore_DLL} PARENT_SCOPE)
