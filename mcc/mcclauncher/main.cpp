@@ -22,7 +22,14 @@ int WINAPI WinMain(
 	
 	if (!launch_parameters.cancelled)
 	{
-		return_code = launch_executable("mcc\\binaries\\win64\\MCC-Win64-Shipping.exe", pCmdLine, nullptr, launch_parameters.extensions_enabled ? "mcclib.dll" : nullptr);
+		if (launch_parameters.extensions_enabled)
+		{
+			return_code = launch_executable("mcc\\binaries\\win64\\MCC-Win64-Shipping.exe", pCmdLine, nullptr, "mcclib.dll");
+		}
+		else
+		{
+			return_code = launch_executable("_mcclauncher.exe", pCmdLine, nullptr, nullptr);
+		}
 	}
 	
 	return return_code;
