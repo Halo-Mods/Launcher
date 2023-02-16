@@ -4,11 +4,12 @@ int launch_executable(
 	const char* path,
 	const char* command_line,
 	const char* current_directory,
-	const char* hooking_dll)
+	const char* hooking_dll,
+	bool blocking)
 {
 	STARTUPINFOA si = {};
 	PROCESS_INFORMATION pi = {};
-	DWORD exit_code = 0;
+	int result = EXIT_SUCCESS;
 	bool success = false;
 
 	si.cb = sizeof(si);
@@ -44,15 +45,22 @@ int launch_executable(
 			&pi);
 	}
 
-	assert(success);
-	assert(SUCCEEDED(GetLastError()));
+	if (success && SUCCEEDED(GetLastError()))
+	{
+		ResumeThread(pi.hThread);
 
-	ResumeThread(pi.hThread);
-	while (WaitForSingleObject(pi.hProcess, INFINITE));
-	CloseHandle(pi.hProcess);
-	CloseHandle(pi.hThread);
-	
-	GetExitCodeProcess(pi.hProcess, &exit_code);
+		if (blocking)
+		{
+			while (WaitForSingleObject(pi.hProcess, INFINITE));
+			CloseHandle(pi.hProcess);
+			CloseHandle(pi.hThread);
+			GetExitCodeProcess(pi.hProcess, (DWORD*)&result);
+		}
+	}
+	else
+	{
+		result = EXIT_FAILURE;
+	}
 
-	return exit_code;
+	return result;
 }

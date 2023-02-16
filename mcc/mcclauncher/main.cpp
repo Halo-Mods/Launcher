@@ -18,17 +18,22 @@ int WINAPI WinMain(
 	std::thread game_launcher_thread(run_game_launcher, &launch_parameters);
 	game_launcher_thread.join();
 
+	bool blocking = !(strstr(pCmdLine, "-non-blocking") != nullptr);
 	int return_code = EXIT_SUCCESS;
 	
 	if (!launch_parameters.cancelled)
 	{
 		if (launch_parameters.extensions_enabled)
 		{
-			return_code = launch_executable("mcc\\binaries\\win64\\MCC-Win64-Shipping.exe", pCmdLine, nullptr, "mcclib.dll");
+#if UE4_INTEGRATION
+			return_code = launch_executable("mcc\\binaries\\win64\\MCC-Win64-Shipping.exe", pCmdLine, nullptr, "mcclib.dll", blocking);
+#else
+			return_code = launch_executable("halomods\\delta.exe", pCmdLine, nullptr, nullptr, blocking);
+#endif
 		}
 		else
 		{
-			return_code = launch_executable("_mcclauncher.exe", pCmdLine, nullptr, nullptr);
+			return_code = launch_executable("_mcclauncher.exe", pCmdLine, nullptr, nullptr, blocking);
 		}
 	}
 	
