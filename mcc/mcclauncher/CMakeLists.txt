@@ -17,7 +17,12 @@ target_link_libraries(mcclauncher PRIVATE
 	appcore
 	common)
 
-add_dependencies(mcclauncher mcclib)
+if(UE4_INTEGRATION)
+	add_dependencies(mcclauncher
+		mcclib)
+	target_compile_definitions(mcclauncher PRIVATE
+		UE4_INTEGRATION)
+endif()
 
 set_target_properties(mcclauncher PROPERTIES
 	RUNTIME_OUTPUT_DIRECTORY "${MCC_RUNTIME_OUTPUT_DIRECTORY}"

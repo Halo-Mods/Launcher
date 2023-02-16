@@ -1,2 +1,4 @@
 add_subdirectory(mcclauncher)
-add_subdirectory(mcclib)
+if(UE4_INTEGRATION)
+	add_subdirectory(mcclib)
+endif()

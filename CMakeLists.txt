@@ -21,9 +21,14 @@ else()
 	set(MCC_RUNTIME_OUTPUT_DIRECTORY "$<0:>${MCC_DIR}")
 endif()
 
+set(UE4_INTEGRATION true CACHE BOOL "Compile with UE4 integration")
+
 add_subdirectory(thirdparty)
 add_subdirectory(common)
 add_subdirectory(games)
 
+if(NOT UE4_INTEGRATION)
 add_subdirectory(delta)
+endif()
+
 add_subdirectory(mcc)
