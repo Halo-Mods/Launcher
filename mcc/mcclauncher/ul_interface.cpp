@@ -62,6 +62,7 @@ void c_halomods_ul_interface::OnDOMReady(
 void c_halomods_ul_interface::launch_button_on_click(const ul::JSObject& object, const ul::JSArgs& args)
 {
 	launch_parameters.extensions_enabled = args[0];
+	launch_parameters.cancelled = false;
 	m_app->Quit();
 }
 
@@ -70,9 +71,17 @@ void c_halomods_ul_interface::run()
 	m_app->Run();
 }
 
-c_halomods_ul_interface::c_halomods_ul_interface()
+c_halomods_ul_interface::c_halomods_ul_interface() :
+	launch_parameters()
 {
-	m_app = ul::App::Create();
+	launch_parameters.cancelled = true;
+
+	ul::Settings creation_settings{};
+	creation_settings.file_system_path = "halomods/web";
+	creation_settings.developer_name = "Halomods";
+	creation_settings.app_name = "Launcher";
+
+	m_app = ul::App::Create(creation_settings);
 	m_window = ul::Window::Create(m_app->main_monitor(), 572, 300, false, ul::kWindowFlags_Titled | ul::kWindowFlags_Hidden);
 	m_window->SetTitle("Halo Mods");
 	m_window->MoveToCenter();

@@ -48,7 +48,7 @@ int launch_executable(
 	assert(SUCCEEDED(GetLastError()));
 
 	ResumeThread(pi.hThread);
-	WaitForSingleObject(pi.hProcess, INFINITE);
+	while (WaitForSingleObject(pi.hProcess, INFINITE));
 	CloseHandle(pi.hProcess);
 	CloseHandle(pi.hThread);
 	

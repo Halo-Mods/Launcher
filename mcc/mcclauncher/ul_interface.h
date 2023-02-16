@@ -2,6 +2,7 @@
 
 struct s_game_launch_parameters
 {
+	bool cancelled;
 	bool extensions_enabled;
 };
 

@@ -20,7 +20,8 @@ target_link_libraries(mcclauncher PRIVATE
 add_dependencies(mcclauncher mcclib)
 
 set_target_properties(mcclauncher PROPERTIES
-	RUNTIME_OUTPUT_DIRECTORY "${MCC_RUNTIME_OUTPUT_DIRECTORY}")
+	RUNTIME_OUTPUT_DIRECTORY "${MCC_RUNTIME_OUTPUT_DIRECTORY}"
+	FOLDER "MCC Projects")
 
 add_custom_command(TARGET mcclauncher POST_BUILD
 	COMMAND ${CMAKE_COMMAND} -E copy ${webcore_LIBRARIES} $<TARGET_RUNTIME_DLLS:mcclauncher> $<TARGET_FILE_DIR:mcclauncher>

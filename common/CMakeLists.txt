@@ -21,3 +21,6 @@ set_source_files_properties(bcs/callback_impl.c PROPERTIES
 
 target_precompile_headers(common PRIVATE
 	common_private_pch.h)
+
+set_target_properties(common PROPERTIES
+	FOLDER "Delta Projects")

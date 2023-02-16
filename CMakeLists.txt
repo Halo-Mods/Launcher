@@ -4,6 +4,7 @@ include(FetchContent)
 
 project(delta)
 set_property(GLOBAL PROPERTY USE_FOLDERS ON)
+set(CMAKE_CXX_STANDARD 17)
 
 function(set_common_props TARGET_PROJ)
 	get_target_property(TARGET_PROJ_SOURCE_DIR ${TARGET_PROJ} SOURCE_DIR)
@@ -23,4 +24,6 @@ endif()
 add_subdirectory(thirdparty)
 add_subdirectory(common)
 add_subdirectory(games)
-add_subdirectory(mcclauncher)
+
+add_subdirectory(delta)
+add_subdirectory(mcc)
